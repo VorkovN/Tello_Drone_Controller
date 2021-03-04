@@ -5,6 +5,8 @@
 #include <netdb.h>
 #include <sstream>
 #include <memory.h>
+#include <unistd.h>
+#include <vector>
 //#include <sys/types.h>
 
 #include <optional>// or we can take it from boost library
@@ -30,12 +32,21 @@ class Tello
 	Tello& operator=(const Tello&&) = delete;
 
  public:
-	BindSocketToPort(const int sockfd, const int port);
+	std::pair<bool, std::string>  bindSocketToPort(const int sockfd, const int port);
+	std::pair<bool, std::string> findSocketAddr(const char* const ip, const char* const port, sockaddr_storage* const addr);
+	bool sendCommand(const std::string& command);
+	std::string receiveResponse();
+	void findTello();
+	void showTelloInfo();
+	bool bindSockets();//todo а нужен ли
+//	std::string GetState();
+
 
  private:
 	int command_sockfd{0};
 	int state_sockfd{0};
-	sockaddr_in stSockAddr;
-	int m_local_client_command_port{LOCAL_CLIENT_COMMAND_PORT};
-	sockaddr_storage m_tello_server_command_addr{};
+	addrinfo* result_list{nullptr};
+	addrinfo hints{};
+	sockaddr_in stSockAddr{};
+	sockaddr_storage tello_server_command_addr{};
 };

@@ -68,11 +68,10 @@ std::string Tello::receiveResponse()
 {
 	const int buf_size = 32;
 	std::vector<unsigned char> buffer(buf_size, '\0');
-	const int flags = MSG_DONTWAIT;
 	socklen_t addr_len = sizeof(tello_server_command_addr);
 	buffer.resize(buf_size, '\0');
 
-	int result = recvfrom(command_sockfd, buffer.data(), buf_size, flags, reinterpret_cast<sockaddr*>(&tello_server_command_addr), &addr_len);
+	int result = recvfrom(command_sockfd, buffer.data(), buf_size, MSG_DONTWAIT, reinterpret_cast<sockaddr*>(&tello_server_command_addr), &addr_len);
 
 	if (result < 1)
 		return "";
@@ -95,20 +94,6 @@ void Tello::findTello()
 	}
 }
 
-void Tello::showTelloInfo()
-{
-	std::cout << "Getting Tello info..." << std::endl;
-	std::string response;
-
-	sendCommand("wifi?");
-	while ((response = receiveResponse()).empty());
-	std::cout << "Wi-Fi Signal: " << response << std::endl;
-
-	sendCommand("battery?");
-	while ((response = receiveResponse()).empty());
-	std::cout << "Battery: " << response << std::endl;
-}
-
 
 bool Tello::bindSockets()
 {
@@ -127,34 +112,30 @@ bool Tello::bindSockets()
 		return false;
 	}
 
-//	// UDP сервер для state
-//	result = bindSocketToPort(state_sockfd, LOCAL_SERVER_STATE_PORT);
-//	if (!result.first)
-//	{
-//		std::cerr << result.second;
-//		return false;
-//	}
+	// UDP сервер для state
+	result = bindSocketToPort(state_sockfd, LOCAL_SERVER_STATE_PORT);
+	if (!result.first)
+	{
+		std::cerr << result.second;
+		return false;
+	}
 
 	return true;
 }
 
-//std::string Tello::GetState()
-//{
-//	sockaddr_storage addr{};
-//	const int size = 1024;
-//	std::vector<unsigned char> buffer(size, '\0');
-//	const auto result = receiveFrom(state_sockfd, addr, buffer, size);
-//	const int bytes = result.first;
-//	if (bytes < 1)
-//		return "No status";
-//
-//	std::string response{buffer.begin(), buffer.begin() + bytes};
-//
-//	response.erase(response.find_last_not_of(" \n\r\t") + 1);
-//
-//	return response;
-//}
+std::string Tello::receiveStatus()
+{
+	const int buf_size = 1024;
+	sockaddr_storage addr{};
+	socklen_t addr_len = sizeof(addr);
+	std::vector<unsigned char> buffer(buf_size, '\0');
+	int result = recvfrom(state_sockfd, buffer.data(), buf_size, MSG_DONTWAIT, reinterpret_cast<sockaddr*>(&addr), &addr_len);
 
+	if (result < 1)
+		return "No status";
+
+	return {buffer.begin(), buffer.begin() + result};
+}
 
 
 

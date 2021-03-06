@@ -37,9 +37,8 @@ class Tello
 	bool sendCommand(const std::string& command);
 	std::string receiveResponse();
 	void findTello();
-	void showTelloInfo();
-	bool bindSockets();//todo а нужен ли
-//	std::string GetState();
+	bool bindSockets();
+	std::string receiveStatus();
 
 
  private:

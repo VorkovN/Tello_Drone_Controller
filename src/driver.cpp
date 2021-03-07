@@ -1,12 +1,17 @@
-// https://ru.wikipedia.org/wiki/%D0%A1%D0%BE%D0%BA%D0%B5%D1%82%D1%8B_%D0%91%D0%B5%D1%80%D0%BA%D0%BB%D0%B8
-
-#include "tello_driver.h"
+#include "driver.h"
 
 
 Tello::Tello()
 {
 	command_sockfd = socket(AF_INET, SOCK_DGRAM, 0);
 	state_sockfd = socket(AF_INET, SOCK_DGRAM, 0);
+
+	if (!bindSockets())
+	{
+		std::cout << "Binding error";
+		exit(1);
+	}
+	findTello();//отправка инициализирующей команды
 }
 
 Tello::~Tello()

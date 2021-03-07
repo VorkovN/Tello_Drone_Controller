@@ -14,9 +14,9 @@
 //#include <string>
 
 const char* const TELLO_SERVER_IP{"192.168.10.1"};// sudo arp-scan --interface=wlp1s0 --localnet
-const char* const TELLO_SERVER_COMMAND_PORT{"8889"};
-const int LOCAL_CLIENT_COMMAND_PORT{9000};
-const int LOCAL_SERVER_STATE_PORT{8890};
+const char* const TELLO_SERVER_COMMAND_PORT = "8889";
+const int LOCAL_CLIENT_COMMAND_PORT = 9000;
+const int LOCAL_SERVER_STATE_PORT = 8890;
 
 
 class Tello
@@ -42,9 +42,9 @@ class Tello
 
 
  private:
-	int command_sockfd{0};
-	int state_sockfd{0};
-	addrinfo* result_list{nullptr};
+	int command_sockfd = 0;
+	int state_sockfd = 0;
+	addrinfo* result_list = nullptr;
 	addrinfo hints{};
 	sockaddr_in stSockAddr{};
 	sockaddr_storage tello_server_command_addr{};

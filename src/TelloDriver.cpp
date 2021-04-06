@@ -1,7 +1,7 @@
-#include "driver.h"
+#include "TelloDriver.h"
 
 
-Tello::Tello()
+TelloDriver::TelloDriver()
 {
 	command_sockfd = socket(AF_INET, SOCK_DGRAM, 0);
 	state_sockfd = socket(AF_INET, SOCK_DGRAM, 0);
@@ -14,14 +14,14 @@ Tello::Tello()
 	findTello();//отправка инициализирующей команды
 }
 
-Tello::~Tello()
+TelloDriver::~TelloDriver()
 {
 	close(command_sockfd);
 	close(state_sockfd);
 }
 
 //привязываем сокет к порту
-std::pair<bool, std::string> Tello::bindSocketToPort(const int sockfd, const int port)
+std::pair<bool, std::string> TelloDriver::bindSocketToPort(const int sockfd, const int port)
 {
 	//по инструкции надо почистить
 	memset(&stSockAddr, 0, sizeof(stSockAddr));
@@ -40,7 +40,7 @@ std::pair<bool, std::string> Tello::bindSocketToPort(const int sockfd, const int
 
 
 std::pair<bool, std::string>
-Tello::findSocketAddr(const char* const ip, const char* const port, sockaddr_storage* const addr)
+TelloDriver::findSocketAddr(const char* const ip, const char* const port, sockaddr_storage* const addr)
 {
 	hints.ai_family = AF_INET;
 	hints.ai_socktype = SOCK_DGRAM;
@@ -56,7 +56,7 @@ Tello::findSocketAddr(const char* const ip, const char* const port, sockaddr_sto
 }
 
 
-bool Tello::sendCommand(const std::string& command)
+bool TelloDriver::sendCommand(const std::string& command)
 {
 	const std::vector<unsigned char> message{ command.begin(), command.end() };
 
@@ -69,7 +69,7 @@ bool Tello::sendCommand(const std::string& command)
 	return true;
 }
 
-std::string Tello::receiveResponse()
+std::string TelloDriver::receiveResponse()
 {
 	const int buf_size = 32;
 	std::vector<unsigned char> buffer(buf_size, '\0');
@@ -86,9 +86,9 @@ std::string Tello::receiveResponse()
 	return response;
 }
 
-void Tello::findTello()
+void TelloDriver::findTello()
 {
-	std::cout << "Finding Tello ..." << std::endl;
+	std::cout << "Finding TelloDriver ..." << std::endl;
 	sendCommand("command");
 	sleep(1);
 
@@ -100,7 +100,7 @@ void Tello::findTello()
 }
 
 
-bool Tello::bindSockets()
+bool TelloDriver::bindSockets()
 {
 	// UDP клиент для command
 	auto result = bindSocketToPort(command_sockfd, LOCAL_CLIENT_COMMAND_PORT);
@@ -128,7 +128,7 @@ bool Tello::bindSockets()
 	return true;
 }
 
-std::string Tello::receiveStatus()
+std::string TelloDriver::receiveStatus() const
 {
 	const int buf_size = 1024;
 	sockaddr_storage addr{};

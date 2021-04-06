@@ -12,6 +12,7 @@
 #include <optional>// or we can take it from boost library
 //#include <vector>
 //#include <string>
+#include "StatusParams.h"
 
 const char* const TELLO_SERVER_IP{"192.168.10.1"};// sudo arp-scan --interface=wlp1s0 --localnet
 const char* const TELLO_SERVER_COMMAND_PORT = "8889";
@@ -19,17 +20,17 @@ const int LOCAL_CLIENT_COMMAND_PORT = 9000;
 const int LOCAL_SERVER_STATE_PORT = 8890;
 
 
-class Tello
+class TelloDriver
 {
  public:
-	Tello();
-	~Tello();
+	TelloDriver();
+	~TelloDriver();
 
 
-	Tello(const Tello&) = delete;
-	Tello(const Tello&&) = delete;
-	Tello& operator=(const Tello&) = delete;
-	Tello& operator=(const Tello&&) = delete;
+	TelloDriver(const TelloDriver&) = default;
+	TelloDriver(const TelloDriver&&) = delete;
+	TelloDriver& operator=(const TelloDriver&) = delete;
+	TelloDriver& operator=(const TelloDriver&&) = delete;
 
  public:
 	std::pair<bool, std::string>  bindSocketToPort(const int sockfd, const int port);
@@ -38,7 +39,7 @@ class Tello
 	std::string receiveResponse();
 	void findTello();
 	bool bindSockets();
-	std::string receiveStatus();
+	std::string receiveStatus() const;
 
 
  private:
@@ -48,4 +49,6 @@ class Tello
 	addrinfo hints{};
 	sockaddr_in stSockAddr{};
 	sockaddr_storage tello_server_command_addr{};
+
+	StatusParams _statusParams;
 };

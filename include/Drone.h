@@ -4,6 +4,7 @@
 #include "TelloDriver.h"
 #include "StatusController.h"
 #include "VideoController.h"
+#include "CommandController.h"
 
 class Drone
 {
@@ -11,6 +12,7 @@ class Drone
 	Drone();
 	~Drone();
 
+	bool executeCommand(const std::string& command);
 	void startVideo();
 	void stopVideo();
 
@@ -20,7 +22,8 @@ class Drone
 	void printStatus() const;
 
  private:
-	TelloDriver _tello_driver;
+	TelloDriver _telloDriver;
+	CommandController _commandController;
 	VideoController _videoController;
 	StatusController _statusController;
 

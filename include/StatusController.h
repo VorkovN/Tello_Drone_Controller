@@ -19,5 +19,5 @@ class StatusController
 
  private:
 	bool _alive = false;
-	TelloDriver tello_driver;
+	TelloDriver *_telloDriver;
 };

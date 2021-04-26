@@ -1,13 +1,19 @@
-// https://ru.wikipedia.org/wiki/%D0%A1%D0%BE%D0%BA%D0%B5%D1%82%D1%8B_%D0%91%D0%B5%D1%80%D0%BA%D0%BB%D0%B8
-// https://dl-cdn.ryzerobotics.com/downloads/tello/0228/Tello+SDK+Readme.pdf
-
-#include <iostream>
-
 #include "Drone.h"
 
 int main()
 {
 	Drone drone;
 
+	drone.executeCommand("takeoff");
+	sleep(8);
+	drone.executeCommand("land");
+	sleep(2);
 	return 0;
 }
+
+// программное обеспечение всроенных систем, модели вычисления
+// ли проблема с потоками
+// основание программированияы
+// мифический человек и месяц брукс
+// Гради Бутч объектно-ориентированный анализ и проектирование
+

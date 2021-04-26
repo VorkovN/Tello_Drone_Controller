@@ -1,25 +1,20 @@
 #include "Drone.h"
 
-Drone::Drone(): _statusThread(std::thread(&Drone::saveStatus, this)),
-				_videoThread(std::thread(&VideoController::getVideo, &_videoController)),
-				_statusController(&_tello_driver),
-				_videoController(&_tello_driver)
+Drone::Drone():_videoController(&_commandController), _statusController(&_telloDriver), _commandController(&_telloDriver)
 {
+	_commandController.execuiteCommand("command");
+
+	_statusThread = std::thread(&Drone::saveStatus, this);
+	_videoThread = std::thread(&VideoController::getVideo, &_videoController);
+
 	receiveStatus();
 	startVideo();
-	//ожидание управления с клавиатуры
+	sleep(1);//неубираемый костыль
+}
 
-	//тестирование взлета и посадки
-	_tello_driver.sendCommand("takeoff");
-	std::string response1;
-	while ((response1 = _tello_driver.receiveResponse()).empty());
-	std::cout << response1 << std::endl;
-	sleep(1);
-	_tello_driver.sendCommand("land");
-	std::string response2;
-	while ((response2 = _tello_driver.receiveResponse()).empty());
-	std::cout << response2 << std::endl;
-
+bool Drone::executeCommand(const std::string& command)
+{
+	return _commandController.execuiteCommand(command);
 
 }
 
@@ -76,5 +71,6 @@ Drone::~Drone()
 {
 	_statusController.setAlive(false);
 	_videoController.setAlive(false);
+	sleep(2);
 }
 

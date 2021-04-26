@@ -4,7 +4,7 @@ project(Tello_Drone_Controller)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_FLAGS -pthread)
 
-set(SRC main.cpp src/TelloDriver.cpp src/StatusController.cpp src/VideoController.cpp src/Drone.cpp)
+set(SRC main.cpp src/TelloDriver.cpp src/StatusController.cpp src/VideoController.cpp src/Drone.cpp src/CommandController.cpp)
 
 include_directories(${CMAKE_CURRENT_LIST_DIR}/include/)
 

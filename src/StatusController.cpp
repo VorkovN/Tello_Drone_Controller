@@ -1,6 +1,6 @@
 #include "StatusController.h"
 
-StatusController::StatusController(TelloDriver *tello_driver) : tello_driver(*tello_driver)
+StatusController::StatusController(TelloDriver *tello_driver) : _telloDriver(tello_driver)
 {
 }
 
@@ -9,19 +9,19 @@ StatusController::StatusController(TelloDriver *tello_driver) : tello_driver(*te
 //	std::cout << "Getting TelloDriver info..." << std::endl;
 //	std::string response;
 //
-//	tello_driver.sendCommand("speed?");
-//	while ((response = tello_driver.receiveResponse()).empty());
+//	_telloDriver.sendCommand("speed?");
+//	while ((response = _telloDriver.receiveResponse()).empty());
 //	std::cout << "Speed: " << response << std::endl;
 //
-//	tello_driver.sendCommand("battery?");
-//	while ((response = tello_driver.receiveResponse()).empty());
+//	_telloDriver.sendCommand("battery?");
+//	while ((response = _telloDriver.receiveResponse()).empty());
 //	std::cout << "Battery: " << response << std::endl;
 //}
 
 StatusParams StatusController::getStatus()
 {
 	StatusParams statusParams;
-	std::string status = tello_driver.receiveStatus();
+	std::string status = _telloDriver->receiveStatus().second;
 	
 	size_t prev = status.find(':');
 	size_t next = status.find(';');

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "TelloDriver.h"
+#include "CommandController.h"
 #include "opencv2/core.hpp"
 #include "opencv2/highgui.hpp"
 #include "opencv2/imgcodecs.hpp"
@@ -9,7 +10,7 @@
 class VideoController
 {
  public:
-	explicit VideoController(TelloDriver *tello_driver);
+	explicit VideoController(CommandController *commandController);
 
 	void getVideo();
 
@@ -18,6 +19,6 @@ class VideoController
 
  private:
  	bool _alive = false;
-	TelloDriver tello_driver;
+	CommandController *_commandController;
 	const char* const TELLO_STREAM_URL{"udp://0.0.0.0:11111"};
 };

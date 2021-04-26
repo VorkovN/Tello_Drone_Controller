@@ -33,22 +33,22 @@ class TelloDriver
 	TelloDriver& operator=(const TelloDriver&&) = delete;
 
  public:
-	std::pair<bool, std::string>  bindSocketToPort(const int sockfd, const int port);
+	std::pair<bool, std::string> bindSocketToPort(const int sockfd, const int port);
 	std::pair<bool, std::string> findSocketAddr(const char* const ip, const char* const port, sockaddr_storage* const addr);
+	std::pair<bool, std::string> receiveResponse();
+	std::pair<bool, std::string> receiveStatus() const;
 	bool sendCommand(const std::string& command);
-	std::string receiveResponse();
 	void findTello();
 	bool bindSockets();
-	std::string receiveStatus() const;
 
 
  private:
-	int command_sockfd = 0;
-	int state_sockfd = 0;
-	addrinfo* result_list = nullptr;
-	addrinfo hints{};
-	sockaddr_in stSockAddr{};
-	sockaddr_storage tello_server_command_addr{};
+	int _commandSockfd = 0;
+	int _stateSockfd = 0;
+	addrinfo* _resultList = nullptr;
+	addrinfo _hints{};
+	sockaddr_in _stSockAddr{};
+	sockaddr _telloServerCommandAddr{};
 
 	StatusParams _statusParams;
 };

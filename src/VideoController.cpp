@@ -1,14 +1,12 @@
 #include "VideoController.h"
 
-VideoController::VideoController(TelloDriver *tello_driver): tello_driver(*tello_driver)
+VideoController::VideoController(CommandController *commandController): _commandController(commandController)
 {
 }
 
 void VideoController::getVideo()
 {
-
-	tello_driver.sendCommand("streamon");
-	while (tello_driver.receiveResponse().empty());
+	std::cout << "Video Ok: " << _commandController->execuiteCommand("streamon");
 
 	cv::VideoCapture capture(TELLO_STREAM_URL, cv::CAP_FFMPEG);
 	cv::Mat frame;

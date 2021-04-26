@@ -34,7 +34,7 @@ class TelloDriver
 
  public:
 	std::pair<bool, std::string> bindSocketToPort(const int sockfd, const int port);
-	std::pair<bool, std::string> findSocketAddr(const char* const ip, const char* const port, sockaddr_storage* const addr);
+	std::pair<bool, std::string> findSocketAddr(const char* const ip, const char* const port, sockaddr* const addr);
 	std::pair<bool, std::string> receiveResponse();
 	std::pair<bool, std::string> receiveStatus() const;
 	bool sendCommand(const std::string& command);

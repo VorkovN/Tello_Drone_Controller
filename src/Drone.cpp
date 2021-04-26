@@ -3,19 +3,17 @@
 Drone::Drone():_videoController(&_commandController), _statusController(&_telloDriver), _commandController(&_telloDriver)
 {
 	_commandController.execuiteCommand("command");
-
+	sleep(1);//дрону нужно время на инициализацию
 	_statusThread = std::thread(&Drone::saveStatus, this);
 	_videoThread = std::thread(&VideoController::getVideo, &_videoController);
 
 	receiveStatus();
 	startVideo();
-	sleep(1);//неубираемый костыль
 }
 
 bool Drone::executeCommand(const std::string& command)
 {
 	return _commandController.execuiteCommand(command);
-
 }
 
 void Drone::saveStatus()

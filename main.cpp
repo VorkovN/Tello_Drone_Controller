@@ -3,7 +3,7 @@
 int main()
 {
 	Drone drone;
-
+	sleep(1);
 	drone.executeCommand("takeoff");
 	sleep(8);
 	drone.executeCommand("land");

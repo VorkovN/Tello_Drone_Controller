@@ -37,7 +37,7 @@ std::pair<bool, std::string> TelloDriver::bindSocketToPort(const int sockfd, con
 	return { true, "" };
 }
 
-std::pair<bool, std::string> TelloDriver::findSocketAddr(const char* const ip, const char* const port, sockaddr_storage* const addr)
+std::pair<bool, std::string> TelloDriver::findSocketAddr(const char* const ip, const char* const port, sockaddr* const addr)
 {
 	_hints.ai_family = AF_INET;
 	_hints.ai_socktype = SOCK_DGRAM;
@@ -64,7 +64,7 @@ bool TelloDriver::bindSockets()
 	}
 
 	//заполняем _telloServerCommandAddr
-	result = findSocketAddr(TELLO_SERVER_IP, TELLO_SERVER_COMMAND_PORT, reinterpret_cast<sockaddr_storage*>(&_telloServerCommandAddr));
+	result = findSocketAddr(TELLO_SERVER_IP, TELLO_SERVER_COMMAND_PORT, &_telloServerCommandAddr);
 	if (!result.first)
 	{
 		std::cerr << result.second;
@@ -88,7 +88,7 @@ bool TelloDriver::sendCommand(const std::string& command)
 	const std::vector<unsigned char> message(command.begin(), command.end());
 	const socklen_t addr_len = sizeof(_telloServerCommandAddr);
 
-	ssize_t result = sendto(_commandSockfd, message.data(), message.size(), 0, reinterpret_cast<const sockaddr*>(&_telloServerCommandAddr), addr_len);
+	ssize_t result = sendto(_commandSockfd, message.data(), message.size(), 0, &_telloServerCommandAddr, addr_len);
 
 	if (result == -1)
 		return false;
@@ -103,7 +103,7 @@ std::pair<bool, std::string> TelloDriver::receiveResponse()
 	std::vector<unsigned char> buffer(buf_size, '\0');
 	socklen_t addr_len = sizeof(_telloServerCommandAddr);
 
-	ssize_t result = recvfrom(_commandSockfd, buffer.data(), buf_size, MSG_DONTWAIT, reinterpret_cast<sockaddr*>(&_telloServerCommandAddr), &addr_len);
+	ssize_t result = recvfrom(_commandSockfd, buffer.data(), buf_size, MSG_DONTWAIT, &_telloServerCommandAddr, &addr_len);
 
 	if (result < 1)
 		return std::make_pair(false, "");
@@ -117,10 +117,8 @@ std::pair<bool, std::string> TelloDriver::receiveResponse()
 std::pair<bool, std::string> TelloDriver::receiveStatus() const
 {
 	const int buf_size = 1024;
-	sockaddr_storage addr{};
-	socklen_t addr_len = sizeof(addr);
 	std::vector<unsigned char> buffer(buf_size, '\0');
-	ssize_t result = recvfrom(_stateSockfd, buffer.data(), buf_size, MSG_DONTWAIT, reinterpret_cast<sockaddr*>(&addr), &addr_len);
+	ssize_t result = recvfrom(_stateSockfd, buffer.data(), buf_size, MSG_DONTWAIT, nullptr, nullptr);
 
 	if (result < 1)
 		return std::make_pair(false, "No Result");

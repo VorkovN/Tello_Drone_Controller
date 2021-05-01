@@ -1,14 +1,24 @@
+#include <QApplication>
 #include "Drone.h"
 
-int main()
+#include "DroneWindow.h"
+
+
+int main(int argc, char *argv[])
 {
-	Drone drone;
-	sleep(1);
-	drone.executeCommand("takeoff");
-	sleep(8);
-	drone.executeCommand("land");
-	sleep(2);
-	return 0;
+//    sleep(1);
+//    drone.executeCommand("takeoff");
+//    sleep(8);
+//    drone.executeCommand("land");
+//    sleep(2);
+
+    QApplication app(argc, argv);
+    DroneWindow window;
+
+    window.setWindowTitle("Tello");
+    window.showMaximized();
+
+    return app.exec();
 }
 
 // программное обеспечение всроенных систем, модели вычисления

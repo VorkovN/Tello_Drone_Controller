@@ -8,7 +8,8 @@ Drone::Drone():_videoController(&_commandController), _statusController(&_telloD
 	_videoThread = std::thread(&VideoController::getVideo, &_videoController);
 
 	receiveStatus();
-	startVideo();
+//	startVideo();
+    sleep(1);
 }
 
 bool Drone::executeCommand(const std::string& command)
@@ -18,7 +19,6 @@ bool Drone::executeCommand(const std::string& command)
 
 void Drone::saveStatus()
 {
-	_statusController.setAlive(true);
 	while (_statusController.isAlive())
 	{
 		_statusParams = _statusController.getStatus();
@@ -30,7 +30,6 @@ void Drone::saveStatus()
 
 void Drone::receiveStatus()
 {
-	_videoController.setAlive(true);
 	_statusThread.detach();
 }
 
@@ -58,6 +57,7 @@ void Drone::startVideo()
 {
 	_videoController.setAlive(true);
 	_videoThread.detach();
+    sleep(1);
 }
 
 void Drone::stopVideo()
@@ -67,8 +67,6 @@ void Drone::stopVideo()
 
 Drone::~Drone()
 {
-	_statusController.setAlive(false);
-	_videoController.setAlive(false);
 	sleep(2);
 }
 

@@ -11,14 +11,19 @@ class VideoController
 {
  public:
 	explicit VideoController(CommandController *commandController);
+	~VideoController();
 
 	void getVideo();
 
-	bool isAlive() const;
-	void setAlive(bool alive);
+    bool isAlive() const;
+    void setAlive(bool alive);
+
+public:
+    static cv::Mat frame;
+    static bool _alive;
 
  private:
- 	bool _alive = false;
+
 	CommandController *_commandController;
 	const char* const TELLO_STREAM_URL{"udp://0.0.0.0:11111"};
 };

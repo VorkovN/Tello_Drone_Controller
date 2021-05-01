@@ -2,6 +2,7 @@
 
 StatusController::StatusController(TelloDriver *tello_driver) : _telloDriver(tello_driver)
 {
+    _alive = true;
 }
 
 //void StatusController::showTelloInfo()
@@ -80,9 +81,9 @@ bool StatusController::isAlive() const
 	return _alive;
 }
 
-void StatusController::setAlive(bool alive)
+StatusController::~StatusController()
 {
-	_alive = alive;
+    _alive = false;
 }
 
 

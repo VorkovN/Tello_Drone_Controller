@@ -1,7 +1,5 @@
 #pragma once
 
-//#include <pthread.h>
-
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QWidget>
@@ -19,16 +17,21 @@ public:
 
 private slots:
     void timerEvent(QTimerEvent *) override;
-    void onStartButtonClick();
+    void onStartVideoButtonClick();
+    void onStopVideoButtonClick();
+    void updateVideoFrame();
+    void updateStatus();
 
 private:
     QRect _rect;//параметры экрана
     QLabel *_frameLabel;
+    QLabel *_statusLabel;
+    QLabel *_helpLabel;
     QPushButton *_startBtn;
     QPushButton *_stopBtn;
-    std::thread _videoThread;
-    int _timerId;
-    uint32_t  DELAY = 1;
+    QPushButton *_quitBtn;
+    int _videoTimerId;
+    int _statusTimerId;
 
     Drone _drone;
 

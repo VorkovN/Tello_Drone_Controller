@@ -7,7 +7,7 @@
 class CommandController
 {
  public:
-	explicit CommandController(TelloDriver *telloDriver);
+	CommandController(TelloDriver *telloDriver);
 	bool execuiteCommand(const std::string &command);
 
  private:

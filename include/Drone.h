@@ -1,10 +1,12 @@
 #pragma once
-#include <thread>
+#include <QString>
+
 
 #include "TelloDriver.h"
 #include "StatusController.h"
 #include "VideoController.h"
 #include "CommandController.h"
+#include "Constants.h"
 
 class Drone
 {
@@ -13,22 +15,18 @@ class Drone
 	~Drone();
 
 	bool executeCommand(const std::string& command);
-	void startVideo();
-	void stopVideo();
+
+	cv::Mat returnVideoFrame();
+	QString returnStatus();
 
  private:
-	void saveStatus();
-	void receiveStatus();
-	void printStatus() const;
+	void checkStatus();
 
  private:
 	TelloDriver _telloDriver;
 	CommandController _commandController;
+    StatusController _statusController;
 	VideoController _videoController;
-	StatusController _statusController;
-
-	std::thread _videoThread;
-	std::thread _statusThread;
 
 	StatusParams _statusParams;
 };

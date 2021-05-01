@@ -7,17 +7,10 @@
 #include <memory.h>
 #include <unistd.h>
 #include <vector>
-//#include <sys/types.h>
 
-#include <optional>// or we can take it from boost library
-//#include <vector>
-//#include <string>
 #include "StatusParams.h"
+#include "Constants.h"
 
-const char* const TELLO_SERVER_IP{"192.168.10.1"};// sudo arp-scan --interface=wlp1s0 --localnet
-const char* const TELLO_SERVER_COMMAND_PORT = "8889";
-const int LOCAL_CLIENT_COMMAND_PORT = 9000;
-const int LOCAL_SERVER_STATE_PORT = 8890;
 
 
 class TelloDriver

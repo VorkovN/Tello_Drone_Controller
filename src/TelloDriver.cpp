@@ -10,6 +10,7 @@ TelloDriver::TelloDriver():
 		std::cout << "Binding error";
 		exit(1);
 	}
+	std::cout << "Tello driver has been created" << std::endl;
 }
 
 TelloDriver::~TelloDriver()
@@ -56,7 +57,7 @@ bool TelloDriver::bindSockets()
 {
 	std::pair<bool, std::basic_string<char>> result;
 	// UDP клиент для command
-	result = bindSocketToPort(_commandSockfd, LOCAL_CLIENT_COMMAND_PORT);
+	result = bindSocketToPort(_commandSockfd, constants::LOCAL_CLIENT_COMMAND_PORT);
 	if (!result.first)
 	{
 		std::cerr << result.second;
@@ -64,7 +65,7 @@ bool TelloDriver::bindSockets()
 	}
 
 	//заполняем _telloServerCommandAddr
-	result = findSocketAddr(TELLO_SERVER_IP, TELLO_SERVER_COMMAND_PORT, &_telloServerCommandAddr);
+	result = findSocketAddr(constants::TELLO_SERVER_IP, constants::TELLO_SERVER_COMMAND_PORT, &_telloServerCommandAddr);
 	if (!result.first)
 	{
 		std::cerr << result.second;
@@ -72,7 +73,7 @@ bool TelloDriver::bindSockets()
 	}
 
 	// UDP сервер для state
-	result = bindSocketToPort(_stateSockfd, LOCAL_SERVER_STATE_PORT);
+	result = bindSocketToPort(_stateSockfd, constants::LOCAL_SERVER_STATE_PORT);
 	if (!result.first)
 	{
 		std::cerr << result.second;

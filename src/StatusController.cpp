@@ -3,6 +3,7 @@
 StatusController::StatusController(TelloDriver *tello_driver) : _telloDriver(tello_driver)
 {
     _alive = true;
+    std::cout << "StatusController has been created" << std::endl;
 }
 
 //void StatusController::showTelloInfo()
@@ -74,11 +75,6 @@ StatusParams StatusController::getStatus()
 	statusParams._agz = std::stod(status.substr(prev+1, next-prev));
 
 	return statusParams;
-}
-
-bool StatusController::isAlive() const
-{
-	return _alive;
 }
 
 StatusController::~StatusController()

@@ -1,35 +1,21 @@
 #include "VideoController.h"
 
-cv::Mat VideoController::frame = {};
-bool VideoController::_alive = false;
-
 VideoController::VideoController(CommandController *commandController): _commandController(commandController)
 {
-
+    _commandController->execuiteCommand("streamon");
+    _capture = cv::VideoCapture(TELLO_STREAM_URL, cv::CAP_FFMPEG);
+    std::cout << "VideoController has been created" << std::endl;
 }
 
-void VideoController::getVideo()
+cv::Mat VideoController::getVideoFrame()
 {
-	std::cout << "Video Ok: " << _commandController->execuiteCommand("streamon");
-
-	cv::VideoCapture capture(TELLO_STREAM_URL, cv::CAP_FFMPEG);
-
-	while (_alive)
-		capture >> frame;
-}
-
-bool VideoController::isAlive() const
-{
-    return _alive;
-}
-
-void VideoController::setAlive(bool alive)
-{
-    _alive = alive;
+    cv::Mat frame;
+    _capture >> frame;
+    return frame;
 }
 
 VideoController::~VideoController()
 {
-    _alive = false;
+    std::cout << "VideoController destroyed" << std::endl;
 }
 

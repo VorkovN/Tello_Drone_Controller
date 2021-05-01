@@ -16,6 +16,7 @@ class VideoController
     cv::Mat getVideoFrame();
 
  private:
+    cv::Mat _frame;
     cv::VideoCapture _capture;
 	CommandController *_commandController;
 	const char* const TELLO_STREAM_URL{"udp://0.0.0.0:11111"};

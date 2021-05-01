@@ -9,9 +9,8 @@ VideoController::VideoController(CommandController *commandController): _command
 
 cv::Mat VideoController::getVideoFrame()
 {
-    cv::Mat frame;
-    _capture >> frame;
-    return frame;
+    _capture >> _frame;
+    return _frame;
 }
 
 VideoController::~VideoController()

@@ -4,6 +4,9 @@ CommandController::CommandController(TelloDriver *telloDriver): _telloDriver(tel
 {
     execuiteCommand("command");
     sleep(1);//время на инициализацию дрона
+    execuiteCommand("speed 10"
+                    " ");
+    sleep(1);
     std::cout << "CommandController has been created" << std::endl;
 }
 

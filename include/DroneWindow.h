@@ -6,6 +6,7 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QRect>
+#include <QKeyEvent>
 
 #include "Drone.h"
 
@@ -16,20 +17,22 @@ public:
     ~DroneWindow() override;
 
 private slots:
-    void timerEvent(QTimerEvent *) override;
-    void onStartVideoButtonClick();
-    void onStopVideoButtonClick();
+    void timerEvent(QTimerEvent *e) override;
+    void keyPressEvent(QKeyEvent *e);
+    void onQuitButtonClicked();
     void updateVideoFrame();
     void updateStatus();
 
 private:
-    QRect _rect;//параметры экрана
+    QRect _rect;
+    QImage _img;
     QLabel *_frameLabel;
     QLabel *_statusLabel;
     QLabel *_helpLabel;
-    QPushButton *_startBtn;
-    QPushButton *_stopBtn;
     QPushButton *_quitBtn;
+
+
+    cv::Mat _frame;
     int _videoTimerId;
     int _statusTimerId;
 

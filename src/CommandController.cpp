@@ -4,36 +4,35 @@ CommandController::CommandController(TelloDriver *telloDriver): _telloDriver(tel
 {
     execuiteCommand("command");
     sleep(1);//время на инициализацию дрона
-    execuiteCommand("speed 50");
+    execuiteCommand("speed 100");
     sleep(1);
     std::cout << "CommandController has been created" << std::endl;
 }
 
 bool CommandController::execuiteCommand(const std::string &command)
 {
-	senderMutex.lock();
-//	for (int i = 0; i < _maxMissedPkg; ++i)
-//	{
-//		bool waiting = true;//в ожидании ответа
 
-//		std::thread([&](){usleep(_waitTime); waiting = false;}).detach();//запускаем таймер
+	for (int i = 0; i < _maxMissedPkg; ++i)
+	{
+		bool waiting = true;//в ожидании ответа
 
-		_telloDriver->sendCommand(command);//отправляем команду
+		std::thread([&](){usleep(_waitTime); waiting = false;}).detach();//запускаем таймер
 
-		while (!_telloDriver->receiveResponse().first);//пока не получен ответ проверяем
-//			if (!waiting)//если время вышло
-//				break;//повторная отправка
+		std::cout << "command: " << command << "sended status: " << _telloDriver->sendCommand(command) << std::endl;//отправляем команду
 
-//		if (!waiting)
-//			continue;
+		while (!_telloDriver->receiveResponse().first)//пока не получен ответ проверяем
+			if (!waiting)//если время вышло
+				break;//повторная отправка
+
+		if (!waiting)
+			continue;
 
 		std::cout << "command: " << command << " DONE" << std::endl;
-		senderMutex.unlock();
+
 		return true;
 
-//	}
+	}
 
-//	std::cout << "command: " << command << " ERROR" << std::endl;
-//	senderMutex.unlock();
-//	return false;
+	std::cout << "command: " << command << " ERROR" << std::endl;
+	return false;
 }

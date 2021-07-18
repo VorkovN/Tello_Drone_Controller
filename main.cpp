@@ -16,8 +16,7 @@ int main(int argc, char *argv[])
     DroneWindow window;
 
     window.setWindowTitle("Tello");
-    window.showMaximized();
-
+    window.showNormal();
     return app.exec();
 }
 

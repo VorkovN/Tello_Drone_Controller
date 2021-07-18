@@ -9,6 +9,7 @@
 #include <QPushButton>
 #include <QRect>
 #include <QKeyEvent>
+#include <QTextEdit>
 #include <QThread>
 
 #include "Drone.h"
@@ -27,7 +28,8 @@ private slots:
     void updateStatus();
 
 private:
-    bool _isVideoAlive;
+    bool _isVideoThreadAlive;
+    bool _isStatusThreadAlive;
 
     std::stringstream _buffer{};
     std::streambuf *_cout_buf;
@@ -36,13 +38,12 @@ private:
     QImage _img;
     QLabel *_frameLabel;
     QLabel *_statusLabel;
-    QLabel *_logLabel;
+    QTextEdit* _logTextEdit;
     QPushButton *_quitBtn;
     std::thread _videoThread;
+    std::thread _statusThread;
 
     cv::Mat _frame;
-//    int _videoTimerId;
-    int _statusTimerId;
     int _readyTakeCommandId;
     bool _readyTakeCommand;
 
@@ -56,5 +57,6 @@ private:
     int _cwCounter = 0;
 
     Drone _drone;
+    std::map<Qt::Key, std::string> _commandMap;
 
 };

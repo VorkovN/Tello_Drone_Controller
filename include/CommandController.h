@@ -12,7 +12,7 @@ class CommandController
 
  private:
 	TelloDriver *_telloDriver;
-	std::mutex senderMutex;
+
 	const int _maxMissedPkg = 10;
 	const int _waitTime = 5000000;
 };

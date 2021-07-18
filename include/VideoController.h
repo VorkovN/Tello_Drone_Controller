@@ -19,5 +19,4 @@ class VideoController
     cv::Mat _frame;
     cv::VideoCapture _capture;
 	CommandController *_commandController;
-	const char* const TELLO_STREAM_URL;
 };

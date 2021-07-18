@@ -1,9 +1,9 @@
 #include "VideoController.h"
 
-VideoController::VideoController(CommandController *commandController): _commandController(commandController), TELLO_STREAM_URL("udp://0.0.0.0:11111")
+VideoController::VideoController(CommandController *commandController): _commandController(commandController)
 {
     _commandController->execuiteCommand("streamon");
-    _capture = cv::VideoCapture(TELLO_STREAM_URL, cv::CAP_FFMPEG);
+    _capture = cv::VideoCapture(constants::TELLO_STREAM_URL, cv::CAP_FFMPEG);
     std::cout << "VideoController has been created" << std::endl;
 }
 

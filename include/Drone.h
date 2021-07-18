@@ -14,7 +14,7 @@ class Drone
 	Drone();
 	~Drone();
 
-	bool executeCommand(const std::string& command);
+	bool executeCommand(std::string command);
 
 	cv::Mat returnVideoFrame();
 	QString returnStatus();

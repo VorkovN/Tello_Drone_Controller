@@ -5,7 +5,7 @@ Drone::Drone():_commandController(&_telloDriver), _statusController(&_telloDrive
     std::cout << "Drone has been created" << std::endl;
 }
 
-bool Drone::executeCommand(const std::string& command)
+bool Drone::executeCommand(std::string command)
 {
 	return _commandController.execuiteCommand(command);
 }
